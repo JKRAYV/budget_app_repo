@@ -2,6 +2,7 @@ package com.cognixia.group4;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
@@ -16,6 +17,8 @@ import org.bson.Document;
 public class Group4Application {
 
 	public static void main(String[] args) {
+		SpringApplication.run(Group4Application.class, args);
+		
         String connectionString = "mongodb+srv://team4:team4rocks@cluster0.i0xzt0l.mongodb.net/?retryWrites=true&w=majority";
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
