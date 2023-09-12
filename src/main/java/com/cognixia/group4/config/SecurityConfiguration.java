@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.cognixia.group4.filter.JwtRequestFilter;
+
 //import com.cognixia.jump.filter.JwtRequestFilter;
 
 @Configuration
@@ -37,16 +39,12 @@ public class SecurityConfiguration {
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.csrf().disable()
-				.authorizeRequests()
-				.antMatchers("/authenticate").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
-		        .antMatchers("/v3/api-docs/swagger-config").permitAll()
-		        .antMatchers("/v3/api-docs").permitAll()
-		        .antMatchers("/swagger-ui/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/token/**").permitAll()
+						.anyRequest().authenticated()
+						)
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
