@@ -11,7 +11,7 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	public static enum Role {
-		USER
+		USER, ADMIN
 	}
 	
 	@Id
@@ -24,9 +24,7 @@ public class User implements Serializable{
 		
 	}
 
-	public User(String id, String username, String password, Role role) {
-		super();
-		this.id = id;
+	public User(String username, String password, Role role) {
 		this.username = username;
 		this.password = password;
 		this.role = role;
