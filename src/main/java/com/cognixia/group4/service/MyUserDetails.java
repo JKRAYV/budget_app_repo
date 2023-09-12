@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import com.cognixia.jump.model.User;
+import com.cognixia.group4.model.User;
 
 public class MyUserDetails {
 	
