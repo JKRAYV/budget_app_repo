@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
 
-import com.cognixia.jump.model.User.Role;
-
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
