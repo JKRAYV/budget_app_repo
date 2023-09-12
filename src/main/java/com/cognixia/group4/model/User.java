@@ -1,33 +1,45 @@
 package com.cognixia.group4.model;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 @Document(collection="users")
-public class User implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class User {
+//	private static final long serialVersionUID = 1L;
 	
-	public static enum Role {
-		USER, ADMIN
-	}
+//	public static enum Role {
+//		USER, ADMIN
+//	}
 	
 	@Id
 	private String id;
+	
+	@NotBlank
+	@Size(max = 20)
 	private String username;
+	
+	@NotBlank
+	@Size(max = 120)
 	private String password;
-	private Role role;
+	
+	@DBRef
+	private Set<Role> roles = new HashSet<>();
 	
 	public User() {
 		
 	}
 
-	public User(String username, String password, Role role) {
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.role = role;
 	}
 
 	public String getId() {
@@ -54,17 +66,17 @@ public class User implements Serializable{
 		this.password = password;
 	}
 	
-	public Role getRole() {
-		return role;
+	public Set<Role> getRole() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRole(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + roles + "]";
 	};
 	
 }
