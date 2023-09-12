@@ -15,7 +15,7 @@ public class User implements Serializable{
 	}
 	
 	@Id
-	private Integer id;
+	private String id;
 	private String username;
 	private String password;
 	private Role role;
@@ -24,7 +24,7 @@ public class User implements Serializable{
 		
 	}
 
-	public User(Integer id, String username, String password, Role role) {
+	public User(String id, String username, String password, Role role) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -32,11 +32,11 @@ public class User implements Serializable{
 		this.role = role;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

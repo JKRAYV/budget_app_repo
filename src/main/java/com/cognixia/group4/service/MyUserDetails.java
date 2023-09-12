@@ -6,10 +6,11 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cognixia.group4.model.User;
 
-public class MyUserDetails {
+public class MyUserDetails implements UserDetails{
 	
 private static final long serialVersionUID = 1L;
 	
