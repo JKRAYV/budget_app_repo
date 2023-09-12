@@ -15,68 +15,64 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.cognixia.group4.filter.JwtRequestFilter;
+
 //import com.cognixia.jump.filter.JwtRequestFilter;
 
 @Configuration
 public class SecurityConfiguration {
 
-//	@Autowired
-//	UserDetailsService userDetailsService;
-//
-//	@Autowired
-//	JwtRequestFilter jwtRequestFilter;
-//
-//	// Authentication - who are you? (does this user exist in our database?)
-//	@Bean
-//	protected UserDetailsService userDetailsService() {
-//
-//		return userDetailsService;
-//	}
-//
-//	// Authorization - what do you want? (can this user access this endpoint?)
-//	@Bean
-//	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//
-//		http.csrf().disable()
-//				.authorizeRequests()
-//				.antMatchers("/authenticate").permitAll()
-//				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
-//				.antMatchers("/api/user/**").authenticated()
-//				.antMatchers("/api/account/**").authenticated()
-//		        .antMatchers("/v3/api-docs/swagger-config").permitAll()
-//		        .antMatchers("/v3/api-docs").permitAll()
-//		        .antMatchers("/swagger-ui/**").permitAll()
-//				.anyRequest().authenticated()
-//				.and()
-//				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//		return http.build();
-//	};
-//
-//	@Bean
-//	protected PasswordEncoder encoder() {
-//		return new BCryptPasswordEncoder();
-//	}
-//
-//	// load the encoder & user details service that are needed for spring security
-//	// to do authentication
-//	@Bean
-//	protected DaoAuthenticationProvider authenticationProvider() {
-//
-//		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//
-//		authProvider.setUserDetailsService(userDetailsService);
-//		authProvider.setPasswordEncoder(encoder());
-//
-//		return authProvider;
-//	}
-//
-//	// can autowire and access the authentication manager (manages authentication
-//	// (login) of our project)
-//	@Bean
-//	protected AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-//		return authConfig.getAuthenticationManager();
-//	}
+	@Autowired
+	UserDetailsService userDetailsService;
+
+	@Autowired
+	JwtRequestFilter jwtRequestFilter;
+
+	// Authentication - who are you? (does this user exist in our database?)
+	@Bean
+	protected UserDetailsService userDetailsService() {
+
+		return userDetailsService;
+	}
+
+	// Authorization - what do you want? (can this user access this endpoint?)
+	@Bean
+	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/token/**").permitAll()
+						.anyRequest().authenticated()
+						)
+				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
+	};
+
+	@Bean
+	protected PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	// load the encoder & user details service that are needed for spring security
+	// to do authentication
+	@Bean
+	protected DaoAuthenticationProvider authenticationProvider() {
+
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setPasswordEncoder(encoder());
+
+		return authProvider;
+	}
+
+	// can autowire and access the authentication manager (manages authentication
+	// (login) of our project)
+	@Bean
+	protected AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
+	}
 }
