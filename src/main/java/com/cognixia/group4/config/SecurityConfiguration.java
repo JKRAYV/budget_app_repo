@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.cognixia.group4.filter.JwtRequestFilter;
 
-//import com.cognixia.jump.filter.JwtRequestFilter;
-
 @Configuration
 public class SecurityConfiguration {
 
@@ -41,8 +39,9 @@ public class SecurityConfiguration {
 
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> auth
-//						.anyRequest().authenticated()
-						.requestMatchers("/api/**").permitAll()
+						.requestMatchers("/authenticate").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/user").permitAll()
+						.anyRequest().authenticated()
 						)
 				.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
