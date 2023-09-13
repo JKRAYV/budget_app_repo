@@ -20,10 +20,14 @@ public class BudgetController {
 	BudgetService service;
 	
 	@PostMapping("/budget")
-	public ResponseEntity<Budget> createBudget(@Valid @RequestBody Budget budget) {
+	public ResponseEntity<?> createBudget(@Valid @RequestBody Budget budgetRequest) {
 		
-		Budget created = service.createBudget(budget);
-		
-		return ResponseEntity.status(201).body(created);
+		try {
+			ResponseEntity<Budget> created = service.createBudget(budgetRequest);
+            return ResponseEntity.status(201).body(created);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error creating budget");
+        }
+
 	}
 }

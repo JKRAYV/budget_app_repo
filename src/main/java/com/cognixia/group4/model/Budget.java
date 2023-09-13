@@ -1,7 +1,11 @@
 package com.cognixia.group4.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.cognixia.group4.util.CategoryDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -11,22 +15,26 @@ public class Budget {
 	@Id
 	private String id;
 	
-	@NotBlank
+	@DBRef
+	@JsonDeserialize(using = CategoryDeserializer.class)
 	private Category category;
 	
 	private double maxBudget;
 	
 	private double total;
+	
+	@DBRef
+	private User user;
 
 	public Budget() {
 
 	}
 
-	public Budget(@NotBlank Category category, double maxBudget, double total) {
-		super();
-		this.category = category;
+	public Budget(double maxBudget, double total, Category category, User user) {
 		this.maxBudget = maxBudget;
 		this.total = total;
+		this.category = category;
+        this.user = user;
 	}
 
 	public String getId() {
@@ -61,9 +69,17 @@ public class Budget {
 		this.total = total;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
-		return "Budget [id=" + id + ", category=" + category + ", maxBudget=" + maxBudget + ", total=" + total + "]";
+		return "Budget [id=" + id + ", category=" + category + ", maxBudget=" + maxBudget + ", total=" + total + ", user=" + user + "]";
 	}
 	
 }

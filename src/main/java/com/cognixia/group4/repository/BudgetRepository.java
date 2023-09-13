@@ -8,4 +8,6 @@ import com.cognixia.group4.model.Budget;
 @Repository
 public interface BudgetRepository extends MongoRepository<Budget, String>{
 
+//	Budget save(double maxBudget, double total);
+
 }
