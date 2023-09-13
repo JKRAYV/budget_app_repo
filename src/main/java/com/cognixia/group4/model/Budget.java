@@ -14,16 +14,19 @@ public class Budget {
 	@NotBlank
 	private Category category;
 	
-	private double amount;
+	private double maxBudget;
+	
+	private double total;
 
 	public Budget() {
 
 	}
 
-	public Budget(@NotBlank Category category, double amount) {
+	public Budget(@NotBlank Category category, double maxBudget, double total) {
 		super();
 		this.category = category;
-		this.amount = amount;
+		this.maxBudget = maxBudget;
+		this.total = total;
 	}
 
 	public String getId() {
@@ -42,17 +45,25 @@ public class Budget {
 		this.category = category;
 	}
 
-	public double getAmount() {
-		return amount;
+	public double getMaxBudget() {
+		return maxBudget;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setMaxBudget(double maxBudget) {
+		this.maxBudget = maxBudget;
+	}
+	
+	public double getTotal() {
+		return total;
+	}
+	
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 	@Override
 	public String toString() {
-		return "Budget [id=" + id + ", category=" + category + ", amount=" + amount + "]";
+		return "Budget [id=" + id + ", category=" + category + ", maxBudget=" + maxBudget + ", total=" + total + "]";
 	}
 	
 }
