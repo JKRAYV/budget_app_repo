@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "categories")
 public class Category {
 	
-	public static enum ECategory {FOOD, ENTERTAINMENT};
+	public static enum ECategory {FOOD, ENTERTAINMENT, UTILITY};
 	
 	@Id
 	private String id;

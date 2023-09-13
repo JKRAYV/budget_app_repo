@@ -15,4 +15,8 @@ public class BudgetService {
 	public Budget createBudget(Budget budget) {
 		return repo.save(budget);
 	}
+
+	public Budget updateBudget(Budget budget) {
+		return repo.save(budget);
+	}
 }
