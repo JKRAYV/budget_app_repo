@@ -13,11 +13,6 @@ import jakarta.validation.constraints.Size;
 
 @Document(collection="users")
 public class User {
-//	private static final long serialVersionUID = 1L;
-	
-//	public static enum Role {
-//		USER, ADMIN
-//	}
 	
 	@Id
 	private String id;
