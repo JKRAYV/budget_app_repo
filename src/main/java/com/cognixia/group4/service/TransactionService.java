@@ -1,12 +1,11 @@
 package com.cognixia.group4.service;
 
-import java.sql.Date;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.cognixia.group4.model.Budget;
 import com.cognixia.group4.model.Category;
 import com.cognixia.group4.model.Category.ECategory;
 import com.cognixia.group4.model.Transaction;
