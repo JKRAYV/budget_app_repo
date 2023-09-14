@@ -20,9 +20,13 @@ public class TransactionController {
 	TransactionService service;
 	
 	@PostMapping("/transaction")
-	public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction transaction) {
-		
-		Transaction created = service.createTransaction(transaction);
-		return ResponseEntity.status(201).body(created);
+	public ResponseEntity<?> createTransaction(@Valid @RequestBody Transaction transaction) {
+		try {
+			ResponseEntity<Transaction> created = service.createTransaction(transaction);
+			return ResponseEntity.status(201).body(created);
+			
+		} catch (Exception e) {
+		return ResponseEntity.status(403).body("Error creating transaction");
+		}
 	}
 }
