@@ -1,6 +1,7 @@
 package com.cognixia.group4.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,10 @@ public class TransactionService {
 	
 	@Autowired
     CategoryRepository categoryRepository;
+	
+	public List<Transaction> getTransactions() {
+		return transactionRepository.findAll();
+	}
 	
 	public ResponseEntity<Transaction> createTransaction(Transaction transactionRequest) {
 		String description = transactionRequest.getDescription();
