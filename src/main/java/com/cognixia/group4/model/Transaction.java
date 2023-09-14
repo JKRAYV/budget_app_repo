@@ -1,9 +1,12 @@
 package com.cognixia.group4.model;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -17,7 +20,8 @@ public class Transaction {
 	private String description;
 
 	private double amount;
-
+	
+	@Field(targetType = FieldType.DATE_TIME)
 	private Date date;
 	
 	private Category category;
