@@ -3,6 +3,7 @@ package com.cognixia.group4.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.cognixia.group4.service.UserService;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
 	@Autowired
