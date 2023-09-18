@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import SetCookie from '../hooks/setCookie';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-  const [username, setUsername] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +29,8 @@ const Login = () => {
       .post('http://localhost:8080/api/auth/signin', loginData)
       .then((response) => {
         console.log('Login successful');
-        setUsername(formData.username)
-        window.location.href = '/dashboard';      })
+        window.location.href = '/dashboard';
+        SetCookie("loggedInUser", formData.username);      })
 
       .catch((error) => {
         console.error('Error logging in:', error);
