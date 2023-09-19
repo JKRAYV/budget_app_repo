@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import SetCookie from '../hooks/setCookie';
+import GetCookie from '../hooks/getCookie';
+import Cookies from 'js-cookie';
 
 const Login = () => {
+	
+  const axiosInstance = axios.create({
+	  withCredentials: true
+  })	
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -24,13 +30,14 @@ const Login = () => {
       username: formData.username,
       password: formData.password,
     };
-  
-    axios
+    axiosInstance
       .post('http://localhost:8080/api/auth/signin', loginData)
       .then((response) => {
-        console.log('Login successful');
-        window.location.href = '/dashboard';
-        SetCookie("loggedInUser", formData.username);      })
+        console.log('Login successful');    
+        SetCookie("token", response.data.jwt);
+        SetCookie("loggedInUser", formData.username);     
+		window.location.href = '/dashboard';
+		})
 
       .catch((error) => {
         console.error('Error logging in:', error);

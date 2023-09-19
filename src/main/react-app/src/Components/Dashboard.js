@@ -2,26 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RemoveCookie from '../hooks/removeCookie';
 import GetCookie from '../hooks/getCookie';
+import axios from 'axios';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const User = GetCookie('loggedInUser');
   const [transactions, setTransactions] = useState([]);
+  const axiosInstance = axios.create({
+	  withCredentials: true
+  })	
 
   const handleLogout = () => {
     RemoveCookie(User);
     navigate('/');
   };
-
-  useEffect(() => {
-    fetch('http://localhost:8080/api/transaction', {
-      method: 'GET'
-    })
+	
+	axiosInstance
+	.get('http://localhost:8080/api/transaction', {withCredentials: true})
       .then(response => response.json())
       .then(data => setTransactions(data))
       .catch(error => console.error('Error fetching transactions:', error));
-  }, [User]);
-
+      
+//  useEffect(() => {
+//    fetch('http://localhost:8080/api/transaction', {
+//      method: 'GET'
+//    })
+//      .then(response => response.json())
+//      .then(data => setTransactions(data))
+//      .catch(error => console.error('Error fetching transactions:', error));
+//  }, [User]);
+  
   return (
     <div>
       <h1>Welcome to the BUDGET TRACKER APP Dashboard {User}</h1>
