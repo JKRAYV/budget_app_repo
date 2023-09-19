@@ -8,20 +8,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const User = GetCookie('loggedInUser');
   const [transactions, setTransactions] = useState([]);
-  const axiosInstance = axios.create({
-	  withCredentials: true
-  })	
 
   const handleLogout = () => {
     RemoveCookie(User);
     navigate('/');
   };
 	
-	axiosInstance
-	.get('http://localhost:8080/api/transaction', {withCredentials: true})
-      .then(response => response.json())
-      .then(data => setTransactions(data))
-      .catch(error => console.error('Error fetching transactions:', error));
+	axios
+		.get('http://localhost:8080/api/transaction', {withCredentials: true})
+      	.then(response => response.json())
+      	.then(data => setTransactions(data))
+      	.catch(error => console.error('Error fetching transactions:', error));
       
 //  useEffect(() => {
 //    fetch('http://localhost:8080/api/transaction', {

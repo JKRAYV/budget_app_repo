@@ -34,9 +34,9 @@ import com.cognixia.group4.repository.UserRepository;
 import com.cognixia.group4.security.jwt.JwtUtils;
 import com.cognixia.group4.security.services.UserDetailsImpl;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class AuthController {
   @Autowired
   AuthenticationManager authenticationManager;
@@ -63,7 +63,7 @@ public class AuthController {
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+    String jwtCookie = jwtUtils.generateJwtCookie(userDetails).toString();
 
     List<String> roles = userDetails.getAuthorities().stream()
         .map(item -> item.getAuthority())
@@ -72,7 +72,8 @@ public class AuthController {
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
         .body(new UserInfoResponse(userDetails.getId(),
                                    userDetails.getUsername(),
-                                   roles));
+                                   roles,
+                                   jwtCookie));
   }
 
   @PostMapping("/signup")
