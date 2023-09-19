@@ -1,5 +1,7 @@
 package com.cognixia.group4.security;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.cognixia.group4.security.jwt.AuthEntryPointJwt;
 import com.cognixia.group4.security.jwt.AuthTokenFilter;
@@ -29,6 +34,7 @@ import jakarta.servlet.Filter;
 //jsr250Enabled = true,
 //prePostEnabled = true) // by default
 public class WebSecurityConfig {
+	
 	@Autowired
 	  UserDetailsServiceImpl userDetailsService;
 
@@ -39,6 +45,20 @@ public class WebSecurityConfig {
 	  public AuthTokenFilter authenticationJwtTokenFilter() {
 	    return new AuthTokenFilter();
 	  }
+
+	@Bean
+		public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow only this origin. You can add more origins if required.
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration); // apply this configuration to all endpoints
+
+		return source;
+	}
 
 	  @Bean
 	  public DaoAuthenticationProvider authenticationProvider() {
@@ -62,7 +82,10 @@ public class WebSecurityConfig {
 
 	  @Bean
 	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	    http.csrf(csrf -> csrf.disable())
+	    http
+			.cors() // this will apply Spring's default CORS configuration
+        	.and()
+			.csrf(csrf -> csrf.disable())
 	        .exceptionHandling(exception -> exception.authenticationEntryPoint((AuthenticationEntryPoint) unauthorizedHandler))
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .authorizeHttpRequests(auth -> 

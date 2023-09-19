@@ -13,8 +13,11 @@ public class CorsConfig implements WebMvcConfigurer{
 	@Override
 	public void addCorsMappings(CorsRegistry registry)  {
 		
-		registry.addMapping("/**"); // which paths are open to be consumed
+		registry.addMapping("/**") // which paths are open to be consumed
 				//.allowedMethods( "GET", "POST", "PUT", "DELETE", "PATCH" ); // this request types also available
+				.allowedOrigins("http://localhost:3000") // React's default port
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowCredentials(true);
 		
 	}
 }
